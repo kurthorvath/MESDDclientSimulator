@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/manifoldco/promptui"
+	_ "github.com/paulmach/go.geo"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
-
-	"github.com/manifoldco/promptui"
 )
 
 type Location struct {
@@ -30,6 +31,14 @@ type client struct {
 	updateInterval time.Duration
 	loc            Location
 	baseURL        string
+}
+
+type configItem struct {
+	id        int
+	startLat  float64
+	startLon  float64
+	direction int
+	velocity  int
 }
 
 func TurnOnKthBit(n, k int) int {
@@ -54,21 +63,20 @@ func (c *client) inWhichZonesIsUserLocated() bool {
 	var arr []string
 	_ = json.Unmarshal(body, &arr)
 	log.Printf("Unmarshaled: %v", arr)
-	fmt.Println(arr)
 
 	for _, element := range arr {
 		switch strings.Count(element, ".") {
 		case 1:
-			fmt.Println("L1")
+			log.Println(c.id, "L1")
 			c.loc.L1 = element
 		case 2:
-			fmt.Println("L2")
+			log.Println(c.id, "L2")
 			c.loc.L2 = element
 		case 3:
-			fmt.Println("L3")
+			log.Println(c.id, "L3")
 			c.loc.L3 = element
 		case 4:
-			fmt.Println("L4")
+			log.Println(c.id, "L4")
 			c.loc.L4 = element
 		}
 	}
@@ -85,7 +93,7 @@ func (c *client) inWhichZonesIsUserLocated() bool {
 	if c.loc.L4 != "" {
 		c.loc.LocationDesc = c.loc.L4
 	}
-	fmt.Println("LD", c.loc)
+	log.Println(c.id, "LD", c.loc)
 	return true
 }
 
@@ -97,7 +105,7 @@ func (c *client) areLocationDescriptorsValid() bool {
 func (c *client) downloadTargetApplication() bool {
 	var URL string
 	URL = c.loc.LocationDesc + "." + c.baseURL
-	fmt.Println("download ..." + URL)
+	log.Println(c.id, "download ..."+URL)
 	return true
 }
 
@@ -126,11 +134,11 @@ func (c *client) discoveryProcess() bool {
 func (c *client) process() {
 
 	for c.DoneInit != true {
-		fmt.Println("starting discovery", c.id)
+		log.Println("starting discovery for ", c.id)
 		c.DoneInit = c.discoveryProcess()
 	}
 
-	fmt.Println("update", c.id)
+	log.Println("update", c.id)
 	ticker := time.NewTicker(c.updateInterval * time.Second)
 	done := make(chan bool)
 	go func() {
@@ -139,7 +147,7 @@ func (c *client) process() {
 			case <-done:
 				return
 			case t := <-ticker.C:
-				fmt.Println("Tick at", t)
+				log.Println(c.id, "Tick at", t)
 				c.downloadTargetApplication()
 			}
 		}
@@ -218,8 +226,26 @@ func eval(selected string) {
 
 	}
 }
+func newPosition(slat float64, slon float64, bearing int, speed int, interval int) (lat float64, lon float64) {
+
+	origin := &geo.NewPoint(slat, slon)
+	dist := speed * interval
+	res := origin.PointAtDistanceAndBearing(dist, bearing)
+	return res.Lat(), res.Lon()
+}
 
 func main() {
+	fileName := "simulator.log"
+	// open log file
+	logFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0644)
+	if err != nil {
+		log.Panic(err)
+	}
+	defer logFile.Close()
+
+	log.SetOutput(logFile)
+	log.SetFlags(log.Lshortfile | log.LstdFlags)
+
 	prompt := promptui.Select{
 		Label: "Select Action",
 		Items: menuItems,
@@ -231,7 +257,7 @@ func main() {
 		_, result, err := prompt.Run()
 
 		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
+			log.Printf("Prompt failed %v\n", err)
 			return
 		}
 

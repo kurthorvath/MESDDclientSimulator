@@ -1,0 +1,213 @@
+2024/01/08 13:29:25 main.go:241: This is my first log
+2024/01/08 13:33:35 main.go:136: starting discovery 0
+2024/01/08 13:33:35 main.go:64: Unmarshaled: [uni.waidmannsdorf.klagenfurt.austria waidmannsdorf.klagenfurt.austria klagenfurt.austria austria]
+2024/01/08 13:33:35 main.go:75: L3
+2024/01/08 13:33:35 main.go:72: L2
+2024/01/08 13:33:35 main.go:69: L1
+2024/01/08 13:33:35 main.go:95: LD {0 0 uni.waidmannsdorf.klagenfurt.austria klagenfurt.austria waidmannsdorf.klagenfurt.austria uni.waidmannsdorf.klagenfurt.austria }
+2024/01/08 13:33:35 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:35 main.go:140: update 0
+2024/01/08 13:33:38 main.go:149: Tick at 2024-01-08 13:33:38.6707701 +0100 CET m=+10.757021401
+2024/01/08 13:33:38 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:41 main.go:149: Tick at 2024-01-08 13:33:41.6648427 +0100 CET m=+13.751094001
+2024/01/08 13:33:41 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:44 main.go:149: Tick at 2024-01-08 13:33:44.6649153 +0100 CET m=+16.751166601
+2024/01/08 13:33:44 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:47 main.go:149: Tick at 2024-01-08 13:33:47.6670894 +0100 CET m=+19.753340701
+2024/01/08 13:33:47 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:50 main.go:149: Tick at 2024-01-08 13:33:50.6749091 +0100 CET m=+22.761160401
+2024/01/08 13:33:50 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:53 main.go:149: Tick at 2024-01-08 13:33:53.6642434 +0100 CET m=+25.750494701
+2024/01/08 13:33:53 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:55 main.go:136: starting discovery 1
+2024/01/08 13:33:56 main.go:64: Unmarshaled: [uni.waidmannsdorf.klagenfurt.austria waidmannsdorf.klagenfurt.austria klagenfurt.austria austria]
+2024/01/08 13:33:56 main.go:75: L3
+2024/01/08 13:33:56 main.go:72: L2
+2024/01/08 13:33:56 main.go:69: L1
+2024/01/08 13:33:56 main.go:95: LD {0 0 uni.waidmannsdorf.klagenfurt.austria klagenfurt.austria waidmannsdorf.klagenfurt.austria uni.waidmannsdorf.klagenfurt.austria }
+2024/01/08 13:33:56 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:56 main.go:140: update 1
+2024/01/08 13:33:56 main.go:149: Tick at 2024-01-08 13:33:56.6754368 +0100 CET m=+28.761688101
+2024/01/08 13:33:56 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:58 main.go:136: starting discovery 2
+2024/01/08 13:33:58 main.go:64: Unmarshaled: [uni.waidmannsdorf.klagenfurt.austria waidmannsdorf.klagenfurt.austria klagenfurt.austria austria]
+2024/01/08 13:33:58 main.go:75: L3
+2024/01/08 13:33:58 main.go:72: L2
+2024/01/08 13:33:58 main.go:69: L1
+2024/01/08 13:33:58 main.go:95: LD {0 0 uni.waidmannsdorf.klagenfurt.austria klagenfurt.austria waidmannsdorf.klagenfurt.austria uni.waidmannsdorf.klagenfurt.austria }
+2024/01/08 13:33:58 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:58 main.go:140: update 2
+2024/01/08 13:33:59 main.go:149: Tick at 2024-01-08 13:33:59.2077833 +0100 CET m=+31.294034601
+2024/01/08 13:33:59 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:33:59 main.go:149: Tick at 2024-01-08 13:33:59.6770232 +0100 CET m=+31.763274501
+2024/01/08 13:33:59 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:01 main.go:149: Tick at 2024-01-08 13:34:01.7947437 +0100 CET m=+33.880995001
+2024/01/08 13:34:01 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:02 main.go:149: Tick at 2024-01-08 13:34:02.2118898 +0100 CET m=+34.298141101
+2024/01/08 13:34:02 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:02 main.go:149: Tick at 2024-01-08 13:34:02.6646657 +0100 CET m=+34.750917001
+2024/01/08 13:34:02 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:04 main.go:149: Tick at 2024-01-08 13:34:04.7932816 +0100 CET m=+36.879532901
+2024/01/08 13:34:04 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:05 main.go:149: Tick at 2024-01-08 13:34:05.2149342 +0100 CET m=+37.301185501
+2024/01/08 13:34:05 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:05 main.go:149: Tick at 2024-01-08 13:34:05.6665709 +0100 CET m=+37.752822201
+2024/01/08 13:34:05 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:07 main.go:149: Tick at 2024-01-08 13:34:07.7895711 +0100 CET m=+39.875822401
+2024/01/08 13:34:07 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:08 main.go:149: Tick at 2024-01-08 13:34:08.2090484 +0100 CET m=+40.295299701
+2024/01/08 13:34:08 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:08 main.go:149: Tick at 2024-01-08 13:34:08.6648767 +0100 CET m=+40.751128001
+2024/01/08 13:34:08 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:10 main.go:149: Tick at 2024-01-08 13:34:10.7884755 +0100 CET m=+42.874726801
+2024/01/08 13:34:10 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:11 main.go:149: Tick at 2024-01-08 13:34:11.2092083 +0100 CET m=+43.295459601
+2024/01/08 13:34:11 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:11 main.go:149: Tick at 2024-01-08 13:34:11.6639819 +0100 CET m=+43.750233201
+2024/01/08 13:34:11 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:13 main.go:149: Tick at 2024-01-08 13:34:13.7869916 +0100 CET m=+45.873242901
+2024/01/08 13:34:13 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:14 main.go:149: Tick at 2024-01-08 13:34:14.2061179 +0100 CET m=+46.292369201
+2024/01/08 13:34:14 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:14 main.go:149: Tick at 2024-01-08 13:34:14.673155 +0100 CET m=+46.759406301
+2024/01/08 13:34:14 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:16 main.go:149: Tick at 2024-01-08 13:34:16.793612 +0100 CET m=+48.879863301
+2024/01/08 13:34:16 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:17 main.go:149: Tick at 2024-01-08 13:34:17.2027802 +0100 CET m=+49.289031501
+2024/01/08 13:34:17 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:17 main.go:149: Tick at 2024-01-08 13:34:17.6713834 +0100 CET m=+49.757634701
+2024/01/08 13:34:17 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:19 main.go:149: Tick at 2024-01-08 13:34:19.7947881 +0100 CET m=+51.881039401
+2024/01/08 13:34:19 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:20 main.go:149: Tick at 2024-01-08 13:34:20.2022012 +0100 CET m=+52.288452501
+2024/01/08 13:34:20 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:20 main.go:149: Tick at 2024-01-08 13:34:20.671781 +0100 CET m=+52.758032301
+2024/01/08 13:34:20 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:22 main.go:149: Tick at 2024-01-08 13:34:22.7881405 +0100 CET m=+54.874391801
+2024/01/08 13:34:22 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:23 main.go:149: Tick at 2024-01-08 13:34:23.2109257 +0100 CET m=+55.297177001
+2024/01/08 13:34:23 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:23 main.go:149: Tick at 2024-01-08 13:34:23.6636377 +0100 CET m=+55.749889001
+2024/01/08 13:34:23 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:25 main.go:149: Tick at 2024-01-08 13:34:25.7896419 +0100 CET m=+57.875893201
+2024/01/08 13:34:25 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:26 main.go:149: Tick at 2024-01-08 13:34:26.2135313 +0100 CET m=+58.299782601
+2024/01/08 13:34:26 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:26 main.go:149: Tick at 2024-01-08 13:34:26.6663298 +0100 CET m=+58.752581101
+2024/01/08 13:34:26 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:28 main.go:149: Tick at 2024-01-08 13:34:28.7918272 +0100 CET m=+60.878078501
+2024/01/08 13:34:28 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:29 main.go:149: Tick at 2024-01-08 13:34:29.2161368 +0100 CET m=+61.302388101
+2024/01/08 13:34:29 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:29 main.go:149: Tick at 2024-01-08 13:34:29.6677891 +0100 CET m=+61.754040401
+2024/01/08 13:34:29 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:31 main.go:149: Tick at 2024-01-08 13:34:31.7951441 +0100 CET m=+63.881395401
+2024/01/08 13:34:31 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:32 main.go:149: Tick at 2024-01-08 13:34:32.2035256 +0100 CET m=+64.289776901
+2024/01/08 13:34:32 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:32 main.go:149: Tick at 2024-01-08 13:34:32.6729749 +0100 CET m=+64.759226201
+2024/01/08 13:34:32 main.go:107: download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:34:32 main.go:252: Prompt failed ^C
+2024/01/08 13:37:51 main.go:136: starting discovery for  0
+2024/01/08 13:37:51 main.go:64: Unmarshaled: [uni.waidmannsdorf.klagenfurt.austria waidmannsdorf.klagenfurt.austria klagenfurt.austria austria]
+2024/01/08 13:37:51 main.go:75: 0 L3
+2024/01/08 13:37:51 main.go:72: 0 L2
+2024/01/08 13:37:51 main.go:69: 0 L1
+2024/01/08 13:37:51 main.go:95: 0 LD {0 0 uni.waidmannsdorf.klagenfurt.austria klagenfurt.austria waidmannsdorf.klagenfurt.austria uni.waidmannsdorf.klagenfurt.austria }
+2024/01/08 13:37:51 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:37:51 main.go:140: update 0
+2024/01/08 13:37:54 main.go:149: 0 Tick at 2024-01-08 13:37:54.4751785 +0100 CET m=+5.858321901
+2024/01/08 13:37:54 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:37:57 main.go:149: 0 Tick at 2024-01-08 13:37:57.4677043 +0100 CET m=+8.850847701
+2024/01/08 13:37:57 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:00 main.go:149: 0 Tick at 2024-01-08 13:38:00.4675907 +0100 CET m=+11.850734101
+2024/01/08 13:38:00 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:03 main.go:149: 0 Tick at 2024-01-08 13:38:03.4757591 +0100 CET m=+14.858902501
+2024/01/08 13:38:03 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:06 main.go:149: 0 Tick at 2024-01-08 13:38:06.4705129 +0100 CET m=+17.853656301
+2024/01/08 13:38:06 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:07 main.go:136: starting discovery for  1
+2024/01/08 13:38:07 main.go:64: Unmarshaled: [uni.waidmannsdorf.klagenfurt.austria waidmannsdorf.klagenfurt.austria klagenfurt.austria austria]
+2024/01/08 13:38:07 main.go:75: 1 L3
+2024/01/08 13:38:07 main.go:72: 1 L2
+2024/01/08 13:38:07 main.go:69: 1 L1
+2024/01/08 13:38:07 main.go:95: 1 LD {0 0 uni.waidmannsdorf.klagenfurt.austria klagenfurt.austria waidmannsdorf.klagenfurt.austria uni.waidmannsdorf.klagenfurt.austria }
+2024/01/08 13:38:07 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:07 main.go:140: update 1
+2024/01/08 13:38:09 main.go:149: 0 Tick at 2024-01-08 13:38:09.4736821 +0100 CET m=+20.856825501
+2024/01/08 13:38:09 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:10 main.go:149: 1 Tick at 2024-01-08 13:38:10.4747956 +0100 CET m=+21.857939001
+2024/01/08 13:38:10 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:12 main.go:149: 0 Tick at 2024-01-08 13:38:12.4765143 +0100 CET m=+23.859657701
+2024/01/08 13:38:12 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:13 main.go:149: 1 Tick at 2024-01-08 13:38:13.4795166 +0100 CET m=+24.862660001
+2024/01/08 13:38:13 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:15 main.go:149: 0 Tick at 2024-01-08 13:38:15.4794453 +0100 CET m=+26.862588701
+2024/01/08 13:38:15 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:16 main.go:149: 1 Tick at 2024-01-08 13:38:16.480722 +0100 CET m=+27.863865401
+2024/01/08 13:38:16 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:18 main.go:136: starting discovery for  2
+2024/01/08 13:38:18 main.go:149: 0 Tick at 2024-01-08 13:38:18.4705385 +0100 CET m=+29.853681901
+2024/01/08 13:38:18 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:18 main.go:64: Unmarshaled: [uni.waidmannsdorf.klagenfurt.austria waidmannsdorf.klagenfurt.austria klagenfurt.austria austria]
+2024/01/08 13:38:18 main.go:75: 2 L3
+2024/01/08 13:38:18 main.go:72: 2 L2
+2024/01/08 13:38:18 main.go:69: 2 L1
+2024/01/08 13:38:18 main.go:95: 2 LD {0 0 uni.waidmannsdorf.klagenfurt.austria klagenfurt.austria waidmannsdorf.klagenfurt.austria uni.waidmannsdorf.klagenfurt.austria }
+2024/01/08 13:38:18 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:18 main.go:140: update 2
+2024/01/08 13:38:19 main.go:149: 1 Tick at 2024-01-08 13:38:19.4762335 +0100 CET m=+30.859376901
+2024/01/08 13:38:19 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:21 main.go:149: 0 Tick at 2024-01-08 13:38:21.4748364 +0100 CET m=+32.857979801
+2024/01/08 13:38:21 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:21 main.go:149: 2 Tick at 2024-01-08 13:38:21.6317992 +0100 CET m=+33.014942601
+2024/01/08 13:38:21 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:22 main.go:149: 1 Tick at 2024-01-08 13:38:22.4742918 +0100 CET m=+33.857435201
+2024/01/08 13:38:22 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:24 main.go:149: 0 Tick at 2024-01-08 13:38:24.4778955 +0100 CET m=+35.861038901
+2024/01/08 13:38:24 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:24 main.go:149: 2 Tick at 2024-01-08 13:38:24.6322407 +0100 CET m=+36.015384101
+2024/01/08 13:38:24 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:25 main.go:149: 1 Tick at 2024-01-08 13:38:25.4738443 +0100 CET m=+36.856987701
+2024/01/08 13:38:25 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:27 main.go:149: 0 Tick at 2024-01-08 13:38:27.4803319 +0100 CET m=+38.863475301
+2024/01/08 13:38:27 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:27 main.go:149: 2 Tick at 2024-01-08 13:38:27.6381063 +0100 CET m=+39.021249701
+2024/01/08 13:38:27 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:28 main.go:149: 1 Tick at 2024-01-08 13:38:28.4841376 +0100 CET m=+39.867281001
+2024/01/08 13:38:28 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:30 main.go:149: 0 Tick at 2024-01-08 13:38:30.4781709 +0100 CET m=+41.861314301
+2024/01/08 13:38:30 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:30 main.go:149: 2 Tick at 2024-01-08 13:38:30.6343704 +0100 CET m=+42.017513801
+2024/01/08 13:38:30 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:31 main.go:149: 1 Tick at 2024-01-08 13:38:31.4804487 +0100 CET m=+42.863592101
+2024/01/08 13:38:31 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:33 main.go:149: 0 Tick at 2024-01-08 13:38:33.4684955 +0100 CET m=+44.851638901
+2024/01/08 13:38:33 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:33 main.go:149: 2 Tick at 2024-01-08 13:38:33.6405404 +0100 CET m=+45.023683801
+2024/01/08 13:38:33 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:34 main.go:149: 1 Tick at 2024-01-08 13:38:34.4875954 +0100 CET m=+45.870738801
+2024/01/08 13:38:34 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:36 main.go:149: 0 Tick at 2024-01-08 13:38:36.4723511 +0100 CET m=+47.855494501
+2024/01/08 13:38:36 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:36 main.go:149: 2 Tick at 2024-01-08 13:38:36.6444294 +0100 CET m=+48.027572801
+2024/01/08 13:38:36 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:37 main.go:149: 1 Tick at 2024-01-08 13:38:37.4760767 +0100 CET m=+48.859220101
+2024/01/08 13:38:37 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:39 main.go:149: 0 Tick at 2024-01-08 13:38:39.4803547 +0100 CET m=+50.863498101
+2024/01/08 13:38:39 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:39 main.go:149: 2 Tick at 2024-01-08 13:38:39.6370208 +0100 CET m=+51.020164201
+2024/01/08 13:38:39 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:40 main.go:149: 1 Tick at 2024-01-08 13:38:40.4819084 +0100 CET m=+51.865051801
+2024/01/08 13:38:40 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:42 main.go:149: 0 Tick at 2024-01-08 13:38:42.4786336 +0100 CET m=+53.861777001
+2024/01/08 13:38:42 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:42 main.go:149: 2 Tick at 2024-01-08 13:38:42.6336326 +0100 CET m=+54.016776001
+2024/01/08 13:38:42 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:43 main.go:149: 1 Tick at 2024-01-08 13:38:43.4770241 +0100 CET m=+54.860167501
+2024/01/08 13:38:43 main.go:107: 1 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:45 main.go:149: 0 Tick at 2024-01-08 13:38:45.4732121 +0100 CET m=+56.856355501
+2024/01/08 13:38:45 main.go:107: 0 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:45 main.go:149: 2 Tick at 2024-01-08 13:38:45.6438883 +0100 CET m=+57.027031701
+2024/01/08 13:38:45 main.go:107: 2 download ...uni.waidmannsdorf.klagenfurt.austria.app.service.consul
+2024/01/08 13:38:46 main.go:252: Prompt failed ^C
