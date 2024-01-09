@@ -14,8 +14,10 @@ require (
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/paulmach/go.geo v0.0.0-20180829195134-22b514266d33 // indirect
 	github.com/paulmach/go.geojson v1.5.0 // indirect
+	github.com/paulmach/orb v0.10.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/ziutek/mymysql v1.5.4 // indirect
 	golang.org/x/sys v0.5.0 // indirect
+	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 )

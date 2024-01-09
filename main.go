@@ -4,14 +4,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/manifoldco/promptui"
-	_ "github.com/paulmach/go.geo"
+	"github.com/paulmach/orb"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"gopkg.in/ini.v1"
 	"os"
 	"strings"
 	"time"
+	"math"
 )
+
+
 
 type Location struct {
 	Lat          float64
@@ -28,18 +32,29 @@ type client struct {
 	status         string
 	terminate      bool
 	DoneInit       bool
-	updateInterval time.Duration
+	updateInterval int
 	loc            Location
 	baseURL        string
 }
 
-type configItem struct {
+type configClient struct {
 	id        int
 	startLat  float64
 	startLon  float64
-	direction int
-	velocity  int
+	speed int
+	bearing  int
 }
+
+
+type mainConfig struct {
+	pathClients	string
+	Clients []configClient
+	service_interval int
+	discovery_interval int
+}
+
+var CONF mainConfig 
+
 
 func TurnOnKthBit(n, k int) int {
 	return n | (1 << (k))
@@ -59,6 +74,7 @@ func (c *client) inWhichZonesIsUserLocated() bool {
 		log.Printf("Reading body failed: %s", err)
 		return false
 	}
+	// workaround until final consul integration
 	body = []byte(`["uni.waidmannsdorf.klagenfurt.austria","waidmannsdorf.klagenfurt.austria","klagenfurt.austria", "austria"]`)
 	var arr []string
 	_ = json.Unmarshal(body, &arr)
@@ -113,13 +129,9 @@ func (c *client) discoveryProcess() bool {
 	//lookup geofence based on location
 	var ret bool
 	ret = c.inWhichZonesIsUserLocated()
-	//if ret == false
-	//return ret
 
 	//validate location descriptors
 	ret = c.areLocationDescriptorsValid()
-	//if ret == false
-	//	return ret
 
 	//download target app from edge server
 	ret = c.downloadTargetApplication()
@@ -138,8 +150,26 @@ func (c *client) process() {
 		c.DoneInit = c.discoveryProcess()
 	}
 
-	log.Println("update", c.id)
-	ticker := time.NewTicker(c.updateInterval * time.Second)
+	log.Println("update", c.id, c.updateInterval)
+
+	// main timer causing full discovery
+	mainticker := time.NewTicker(time.Duration(CONF.discovery_interval) * time.Second)
+	doneMain := make(chan bool)
+	go func() {
+		for {
+			select {
+			case <-doneMain:
+				return
+			case t := <-mainticker.C:
+				log.Println(c.id, "FULL Discovery Tick at", t, "", c.loc.Lat,c.loc.Lon)
+				c.DoneInit = false
+				c.DoneInit = c.discoveryProcess()
+			}
+		}
+	}()
+
+	// update timer, while remaining on same service instance
+	ticker := time.NewTicker(time.Duration(c.updateInterval) * time.Second)
 	done := make(chan bool)
 	go func() {
 		for {
@@ -147,7 +177,8 @@ func (c *client) process() {
 			case <-done:
 				return
 			case t := <-ticker.C:
-				log.Println(c.id, "Tick at", t)
+				c.loc.Lat, c.loc.Lon = newPosition(c.loc.Lat, c.loc.Lon, 90, 5, 200)
+				log.Println(c.id, "Tick at", t, "", c.loc.Lat,c.loc.Lon)
 				c.downloadTargetApplication()
 			}
 		}
@@ -185,8 +216,8 @@ func listClientHandler() {
 func addClientHandler() {
 	var INDEX int
 	INDEX = len(arrClients)
-	LOC := Location{0, 0, "", "", "", "", ""}
-	arrClients = append(arrClients, client{INDEX, "test", false, false, 3, LOC, "app.service.consul"})
+	LOC := Location{CONF.Clients[0].startLat, CONF.Clients[0].startLon, "", "", "", "", ""}
+	arrClients = append(arrClients, client{INDEX, "test", false, false, CONF.service_interval, LOC, "app.service.consul"})
 	arrClients[len(arrClients)-1].Start()
 }
 
@@ -226,15 +257,71 @@ func eval(selected string) {
 
 	}
 }
-func newPosition(slat float64, slon float64, bearing int, speed int, interval int) (lat float64, lon float64) {
 
-	origin := &geo.NewPoint(slat, slon)
-	dist := speed * interval
-	res := origin.PointAtDistanceAndBearing(dist, bearing)
-	return res.Lat(), res.Lon()
+func deg2rad(d float64) float64 {
+	return d * math.Pi / 180.0
+}
+
+func rad2deg(r float64) float64 {
+	return 180.0 * r / math.Pi
+}
+
+
+func PointAtBearingAndDistance(p orb.Point, bearing, distance float64) orb.Point {
+	aLat := deg2rad(p[1])
+	aLon := deg2rad(p[0])
+
+	bearingRadians := deg2rad(bearing)
+
+	distanceRatio := distance / orb.EarthRadius
+	bLat := math.Asin(math.Sin(aLat)*math.Cos(distanceRatio) + math.Cos(aLat)*math.Sin(distanceRatio)*math.Cos(bearingRadians))
+	bLon := aLon +
+		math.Atan2(
+			math.Sin(bearingRadians)*math.Sin(distanceRatio)*math.Cos(aLat),
+			math.Cos(distanceRatio)-math.Sin(aLat)*math.Sin(bLat),
+		)
+
+	return orb.Point{rad2deg(bLon), rad2deg(bLat)}
+}
+
+
+func newPosition(slat float64, slon float64, bearing float64, speed float64, interval int) (lat float64, lon float64) {
+	dist := speed * float64(interval)
+	p1 := PointAtBearingAndDistance(orb.Point{slat, slon}, bearing, dist)
+	return p1.X(), p1.Y()
+}
+
+func readConfig(){
+	inidata, err := ini.Load("config.ini")
+	if err != nil {
+	   fmt.Printf("Fail to read file: %v", err)
+	   os.Exit(1)
+	 }
+	section := inidata.Section("defaults")
+   
+	CONF.pathClients = section.Key("listclients").String()
+	CONF.service_interval, _ = section.Key("service_interval").Int()
+	CONF.discovery_interval, _ = section.Key("discovery_interval").Int()
+
+	//currently only one item
+	slat,_ := section.Key("startlat").Float64()
+	slon,_ := section.Key("startlon").Float64()
+	speed,_ := section.Key("speed").Int()
+	bearing,_ := section.Key("bearing").Int()
+
+	CONF.Clients=append(CONF.Clients, configClient{1, slat, slon, speed, bearing})
+}
+
+
+
+func initLogger(){
+
 }
 
 func main() {
+	readConfig()
+	initLogger()
+
 	fileName := "simulator.log"
 	// open log file
 	logFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0644)
@@ -255,7 +342,6 @@ func main() {
 
 	for keepRunning {
 		_, result, err := prompt.Run()
-
 		if err != nil {
 			log.Printf("Prompt failed %v\n", err)
 			return
