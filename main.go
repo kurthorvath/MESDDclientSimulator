@@ -3,19 +3,27 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/manifoldco/promptui"
-	"github.com/paulmach/orb"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
-	"gopkg.in/ini.v1"
 	"os"
 	"strings"
 	"time"
-	"math"
+
+	"github.com/manifoldco/promptui"
+	"github.com/paulmach/orb"
+	"gopkg.in/ini.v1"
 )
 
-
+type ClientConfig []struct {
+	ServiceInterval   string `json:"service_interval"`
+	DiscoveryInterval string `json:"discovery_interval"`
+	Startlat          string `json:"startlat"`
+	Startlon          string `json:"startlon"`
+	Speed             string `json:"speed"`
+	Bearing           string `json:"bearing"`
+}
 
 type Location struct {
 	Lat          float64
@@ -38,23 +46,21 @@ type client struct {
 }
 
 type configClient struct {
-	id        int
-	startLat  float64
-	startLon  float64
-	speed int
+	id       int
+	startLat float64
+	startLon float64
+	speed    int
 	bearing  int
 }
 
-
 type mainConfig struct {
-	pathClients	string
-	Clients []configClient
-	service_interval int
+	pathClients        string
+	Clients            []configClient
+	service_interval   int
 	discovery_interval int
 }
 
-var CONF mainConfig 
-
+var CONF mainConfig
 
 func TurnOnKthBit(n, k int) int {
 	return n | (1 << (k))
@@ -161,7 +167,7 @@ func (c *client) process() {
 			case <-doneMain:
 				return
 			case t := <-mainticker.C:
-				log.Println(c.id, "FULL Discovery Tick at", t, "", c.loc.Lat,c.loc.Lon)
+				log.Println(c.id, "FULL Discovery Tick at", t, "", c.loc.Lat, c.loc.Lon)
 				c.DoneInit = false
 				c.DoneInit = c.discoveryProcess()
 			}
@@ -178,7 +184,7 @@ func (c *client) process() {
 				return
 			case t := <-ticker.C:
 				c.loc.Lat, c.loc.Lon = newPosition(c.loc.Lat, c.loc.Lon, 90, 5, 200)
-				log.Println(c.id, "Tick at", t, "", c.loc.Lat,c.loc.Lon)
+				log.Println(c.id, "Tick at", t, "", c.loc.Lat, c.loc.Lon)
 				c.downloadTargetApplication()
 			}
 		}
@@ -202,7 +208,7 @@ func (c *client) Stop() {
 	c.terminate = true
 }
 
-var menuItems = []string{"List clients", "Add client", "Delete client", "Status"}
+var menuItems = []string{"List clients", "Add client", "Delete client", "Status", "Add Client from list"}
 var arrClients = []client{}
 
 func delete_at_index(slice []client, index int) []client {
@@ -213,10 +219,16 @@ func listClientHandler() {
 	fmt.Println(len(arrClients), arrClients)
 }
 
-func addClientHandler() {
+func addClientHandlers() {
+	for ind, _ := range CONF.Clients {
+		addClientHandler(ind)
+	}
+}
+
+func addClientHandler(IND int) {
 	var INDEX int
 	INDEX = len(arrClients)
-	LOC := Location{CONF.Clients[0].startLat, CONF.Clients[0].startLon, "", "", "", "", ""}
+	LOC := Location{CONF.Clients[IND].startLat, CONF.Clients[IND].startLon, "", "", "", "", ""}
 	arrClients = append(arrClients, client{INDEX, "test", false, false, CONF.service_interval, LOC, "app.service.consul"})
 	arrClients[len(arrClients)-1].Start()
 }
@@ -236,6 +248,10 @@ func statusClientHandler() {
 
 }
 
+func addfromListHandler() {
+
+}
+
 func eval(selected string) {
 	fmt.Println(selected, menuItems[1])
 
@@ -245,13 +261,16 @@ func eval(selected string) {
 		listClientHandler()
 	case menuItems[1]: //add
 		fmt.Println(menuItems[1])
-		addClientHandler()
+		addClientHandler(0)
 	case menuItems[2]: //delete
 		fmt.Println(menuItems[2])
 		deleteClientHandler()
 	case menuItems[3]: //status
 		fmt.Println(menuItems[3])
 		statusClientHandler()
+	case menuItems[4]: //add from list
+		fmt.Println(menuItems[4])
+		addClientHandlers()
 	default:
 		fmt.Println("invalid command")
 
@@ -265,7 +284,6 @@ func deg2rad(d float64) float64 {
 func rad2deg(r float64) float64 {
 	return 180.0 * r / math.Pi
 }
-
 
 func PointAtBearingAndDistance(p orb.Point, bearing, distance float64) orb.Point {
 	aLat := deg2rad(p[1])
@@ -284,54 +302,50 @@ func PointAtBearingAndDistance(p orb.Point, bearing, distance float64) orb.Point
 	return orb.Point{rad2deg(bLon), rad2deg(bLat)}
 }
 
-
 func newPosition(slat float64, slon float64, bearing float64, speed float64, interval int) (lat float64, lon float64) {
 	dist := speed * float64(interval)
 	p1 := PointAtBearingAndDistance(orb.Point{slat, slon}, bearing, dist)
 	return p1.X(), p1.Y()
 }
 
-func readConfig(){
+func readConfig() {
 	inidata, err := ini.Load("config.ini")
 	if err != nil {
-	   fmt.Printf("Fail to read file: %v", err)
-	   os.Exit(1)
-	 }
+		fmt.Printf("Fail to read file: %v", err)
+		os.Exit(1)
+	}
 	section := inidata.Section("defaults")
-   
+
 	CONF.pathClients = section.Key("listclients").String()
+
 	CONF.service_interval, _ = section.Key("service_interval").Int()
 	CONF.discovery_interval, _ = section.Key("discovery_interval").Int()
 
 	//currently only one item
-	slat,_ := section.Key("startlat").Float64()
-	slon,_ := section.Key("startlon").Float64()
-	speed,_ := section.Key("speed").Int()
-	bearing,_ := section.Key("bearing").Int()
+	slat, _ := section.Key("startlat").Float64()
+	slon, _ := section.Key("startlon").Float64()
+	speed, _ := section.Key("speed").Int()
+	bearing, _ := section.Key("bearing").Int()
 
-	CONF.Clients=append(CONF.Clients, configClient{1, slat, slon, speed, bearing})
+	CONF.Clients = append(CONF.Clients, configClient{1, slat, slon, speed, bearing})
 }
 
-
-
-func initLogger(){
-
-}
-
-func main() {
-	readConfig()
-	initLogger()
-
+func initLogger() {
 	fileName := "simulator.log"
 	// open log file
 	logFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		log.Panic(err)
 	}
-	defer logFile.Close()
 
 	log.SetOutput(logFile)
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
+
+}
+
+func main() {
+	readConfig()
+	initLogger()
 
 	prompt := promptui.Select{
 		Label: "Select Action",
@@ -349,4 +363,5 @@ func main() {
 
 		eval(result)
 	}
+
 }
