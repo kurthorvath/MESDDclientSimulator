@@ -24,11 +24,11 @@ docker run -d --name=dev-consul1 -p 8500:8500 -p 8600:8600 consul:1.15.4 agent -
 
 
 # consul dev docu
-docker run -d -p 8500:8500 -p 8600:8600/udp --name=badger consul:1.15.4 agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0
+docker run -d -p 8500:8500 -p 8600:8600/udp -p 53:8600 -p 53:8600/udp --name=badger consul:1.15.4 agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0
 
 docker exec badger consul members
 
-docker run --name=fox consul:1.15.4 agent -node=client-1 -retry-join='172.17.0.3'
+docker run --name=fox consul:1.15.4 agent -v /c/work/DNSconfig:/consul/config/ -node=client-1 -retry-join='172.17.0.3'
 
 docker run -p 9001:9001 -d --name=weasel hashicorp/counting-service:0.0.2
 
