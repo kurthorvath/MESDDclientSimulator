@@ -8,6 +8,7 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -17,12 +18,12 @@ import (
 )
 
 type ClientConfig []struct {
-	ServiceInterval   string `json:"service_interval"`
-	DiscoveryInterval string `json:"discovery_interval"`
+	ServiceInterval   int    `json:"service_interval"`
+	DiscoveryInterval int    `json:"discovery_interval"`
 	Startlat          string `json:"startlat"`
 	Startlon          string `json:"startlon"`
-	Speed             string `json:"speed"`
-	Bearing           string `json:"bearing"`
+	Speed             int    `json:"speed"`
+	Bearing           int    `json:"bearing"`
 }
 
 type Location struct {
@@ -36,21 +37,24 @@ type Location struct {
 }
 
 type client struct {
-	id             int
-	status         string
-	terminate      bool
-	DoneInit       bool
-	updateInterval int
-	loc            Location
-	baseURL        string
+	Id                int      `json:"Id"`
+	Status            string   `json:"Status"`
+	Terminate         bool     `json:"Terminate"`
+	DoneInit          bool     `json:"DoneInit"`
+	UpdateInterval    int      `json:"UpdateInterval"`
+	DiscoveryInterval int      `json:"DiscoveryInterval"`
+	Loc               Location `json:"Location"`
+	BaseURL           string   `json:"BaseURL"`
 }
 
 type configClient struct {
-	id       int
-	startLat float64
-	startLon float64
-	speed    int
-	bearing  int
+	id                int
+	startLat          float64
+	startLon          float64
+	speed             int
+	bearing           int
+	ServiceInterval   int
+	DiscoveryInterval int
 }
 
 type mainConfig struct {
@@ -89,33 +93,33 @@ func (c *client) inWhichZonesIsUserLocated() bool {
 	for _, element := range arr {
 		switch strings.Count(element, ".") {
 		case 1:
-			log.Println(c.id, "L1")
-			c.loc.L1 = element
+			log.Println(c.Id, "L1")
+			c.Loc.L1 = element
 		case 2:
-			log.Println(c.id, "L2")
-			c.loc.L2 = element
+			log.Println(c.Id, "L2")
+			c.Loc.L2 = element
 		case 3:
-			log.Println(c.id, "L3")
-			c.loc.L3 = element
+			log.Println(c.Id, "L3")
+			c.Loc.L3 = element
 		case 4:
-			log.Println(c.id, "L4")
-			c.loc.L4 = element
+			log.Println(c.Id, "L4")
+			c.Loc.L4 = element
 		}
 	}
 
-	if c.loc.L1 != "" {
-		c.loc.LocationDesc = c.loc.L1
+	if c.Loc.L1 != "" {
+		c.Loc.LocationDesc = c.Loc.L1
 	}
-	if c.loc.L2 != "" {
-		c.loc.LocationDesc = c.loc.L2
+	if c.Loc.L2 != "" {
+		c.Loc.LocationDesc = c.Loc.L2
 	}
-	if c.loc.L3 != "" {
-		c.loc.LocationDesc = c.loc.L3
+	if c.Loc.L3 != "" {
+		c.Loc.LocationDesc = c.Loc.L3
 	}
-	if c.loc.L4 != "" {
-		c.loc.LocationDesc = c.loc.L4
+	if c.Loc.L4 != "" {
+		c.Loc.LocationDesc = c.Loc.L4
 	}
-	log.Println(c.id, "LD", c.loc)
+	log.Println(c.Id, "LD", c.Loc)
 	return true
 }
 
@@ -126,8 +130,8 @@ func (c *client) areLocationDescriptorsValid() bool {
 
 func (c *client) downloadTargetApplication() bool {
 	var URL string
-	URL = c.loc.LocationDesc + "." + c.baseURL
-	log.Println(c.id, "download ..."+URL)
+	URL = c.Loc.LocationDesc + "." + c.BaseURL
+	log.Println(c.Id, "download ..."+URL)
 	return true
 }
 
@@ -148,18 +152,25 @@ func (c *client) discoveryProcess() bool {
 	return true
 
 }
+func updateClientbyId(c *client) {
+	for ind, elem := range arrClients {
+		if elem.Id == c.Id {
+			arrClients[ind] = *c
+		}
+	}
+}
 
 func (c *client) process() {
 
 	for c.DoneInit != true {
-		log.Println("starting discovery for ", c.id)
+		log.Println("starting discovery for ", c.Id)
 		c.DoneInit = c.discoveryProcess()
 	}
 
-	log.Println("update", c.id, c.updateInterval)
+	log.Println("time-config for ", c.Id, " updateInterval:", c.UpdateInterval, " discoveryInterval:", c.DiscoveryInterval)
 
 	// main timer causing full discovery
-	mainticker := time.NewTicker(time.Duration(CONF.discovery_interval) * time.Second)
+	mainticker := time.NewTicker(time.Duration(c.DiscoveryInterval) * time.Second)
 	doneMain := make(chan bool)
 	go func() {
 		for {
@@ -167,7 +178,7 @@ func (c *client) process() {
 			case <-doneMain:
 				return
 			case t := <-mainticker.C:
-				log.Println(c.id, "FULL Discovery Tick at", t, "", c.loc.Lat, c.loc.Lon)
+				log.Println(c.Id, "FULL Discovery Tick at", t, "", c.Loc.Lat, c.Loc.Lon)
 				c.DoneInit = false
 				c.DoneInit = c.discoveryProcess()
 			}
@@ -175,7 +186,7 @@ func (c *client) process() {
 	}()
 
 	// update timer, while remaining on same service instance
-	ticker := time.NewTicker(time.Duration(c.updateInterval) * time.Second)
+	ticker := time.NewTicker(time.Duration(c.UpdateInterval) * time.Second)
 	done := make(chan bool)
 	go func() {
 		for {
@@ -183,14 +194,15 @@ func (c *client) process() {
 			case <-done:
 				return
 			case t := <-ticker.C:
-				c.loc.Lat, c.loc.Lon = newPosition(c.loc.Lat, c.loc.Lon, 90, 5, 200)
-				log.Println(c.id, "Tick at", t, "", c.loc.Lat, c.loc.Lon)
+				c.Loc.Lat, c.Loc.Lon = newPosition(c.Loc.Lat, c.Loc.Lon, 90, 5, 200)
+				updateClientbyId(c)
+				log.Println(c.Id, "Tick at", t, "", c.Loc.Lat, c.Loc.Lon)
 				c.downloadTargetApplication()
 			}
 		}
 	}()
 
-	for c.terminate != true {
+	for c.Terminate != true {
 		time.Sleep(200 * time.Millisecond)
 	}
 
@@ -200,12 +212,12 @@ func (c *client) process() {
 }
 
 func (c *client) Start() {
-	c.terminate = false
+	c.Terminate = false
 	go c.process()
 }
 
 func (c *client) Stop() {
-	c.terminate = true
+	c.Terminate = true
 }
 
 var menuItems = []string{"List clients", "Add client", "Delete client", "Status", "Add Client from list"}
@@ -229,7 +241,7 @@ func addClientHandler(IND int) {
 	var INDEX int
 	INDEX = len(arrClients)
 	LOC := Location{CONF.Clients[IND].startLat, CONF.Clients[IND].startLon, "", "", "", "", ""}
-	arrClients = append(arrClients, client{INDEX, "test", false, false, CONF.service_interval, LOC, "app.service.consul"})
+	arrClients = append(arrClients, client{INDEX, "test", false, false, CONF.Clients[IND].ServiceInterval, CONF.Clients[IND].DiscoveryInterval, LOC, "app.service.consul"})
 	arrClients[len(arrClients)-1].Start()
 }
 
@@ -237,7 +249,7 @@ func deleteClientHandler() {
 	var INDEX int
 	fmt.Scanf("%d", &INDEX)
 	c := arrClients[INDEX]
-	c.terminate = true
+	c.Terminate = true
 	arrClients = delete_at_index(arrClients, INDEX)
 }
 
@@ -245,10 +257,6 @@ func statusClientHandler() {
 	var INDEX int
 	fmt.Scanf("%d", &INDEX)
 	fmt.Println("Client is", arrClients[INDEX])
-
-}
-
-func addfromListHandler() {
 
 }
 
@@ -318,6 +326,11 @@ func readConfig() {
 
 	CONF.pathClients = section.Key("listclients").String()
 
+	jsonFile, _ := os.Open(CONF.pathClients)
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var cc ClientConfig
+	json.Unmarshal(byteValue, &cc)
+
 	CONF.service_interval, _ = section.Key("service_interval").Int()
 	CONF.discovery_interval, _ = section.Key("discovery_interval").Int()
 
@@ -327,7 +340,15 @@ func readConfig() {
 	speed, _ := section.Key("speed").Int()
 	bearing, _ := section.Key("bearing").Int()
 
-	CONF.Clients = append(CONF.Clients, configClient{1, slat, slon, speed, bearing})
+	if len(cc) > 0 {
+		for ind, client := range cc {
+			lat, _ := strconv.ParseFloat(client.Startlat, 64)
+			lon, _ := strconv.ParseFloat(client.Startlon, 64)
+			CONF.Clients = append(CONF.Clients, configClient{ind, lat, lon, client.Speed, client.Bearing, client.ServiceInterval, client.DiscoveryInterval})
+		}
+	} else {
+		CONF.Clients = append(CONF.Clients, configClient{1, slat, slon, speed, bearing, CONF.service_interval, CONF.discovery_interval})
+	}
 }
 
 func initLogger() {
@@ -343,6 +364,24 @@ func initLogger() {
 
 }
 
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "map.html")
+}
+
+func getpos(w http.ResponseWriter, req *http.Request) {
+	buffer, err := json.Marshal(arrClients)
+	if err != nil {
+		fmt.Printf("error marshaling JSON: %v\n", err)
+	}
+	w.Write(buffer)
+}
+
+func httpServer() {
+	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/getpos", getpos)
+	http.ListenAndServe(":8080", nil)
+}
+
 func main() {
 	readConfig()
 	initLogger()
@@ -353,6 +392,8 @@ func main() {
 	}
 
 	keepRunning := true
+
+	go httpServer()
 
 	for keepRunning {
 		_, result, err := prompt.Run()

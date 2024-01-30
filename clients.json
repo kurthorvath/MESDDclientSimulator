@@ -1,0 +1,26 @@
+[
+{
+  "service_interval": 3,
+  "discovery_interval": 15,
+  "startlat": "46.1222",
+  "startlon": "13.6721",
+  "speed": 15,
+  "bearing": 90
+},
+{
+  "service_interval": 3,
+  "discovery_interval": 15,
+  "startlat": "46.1245",
+  "startlon": "13.8723",
+  "speed": 10,
+  "bearing": 45
+},
+{
+  "service_interval": 5,
+  "discovery_interval": 20,
+  "startlat": "48.1245",
+  "startlon": "14.8723",
+  "speed": 10,
+  "bearing": 55
+}
+]
