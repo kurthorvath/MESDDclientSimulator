@@ -1,26 +1,27 @@
 [
 {
+
   "service_interval": 3,
   "discovery_interval": 15,
-  "startlat": "46.1222",
-  "startlon": "13.6721",
+  "startlat": "46.61884718351",
+  "startlon": "14.26624239131",
   "speed": 15,
-  "bearing": 90
+  "bearing": 250
 },
 {
   "service_interval": 3,
   "discovery_interval": 15,
-  "startlat": "46.1245",
-  "startlon": "13.8723",
+  "startlat": "46.6138281668",
+  "startlon": "14.2670697081",
   "speed": 10,
-  "bearing": 45
+  "bearing": 110
 },
 {
   "service_interval": 5,
   "discovery_interval": 20,
-  "startlat": "48.1245",
-  "startlon": "14.8723",
+  "startlat": "46.61878987436",
+  "startlon": "14.26494539859",
   "speed": 10,
-  "bearing": 55
+  "bearing": 190
 }
 ]

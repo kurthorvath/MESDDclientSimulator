@@ -27,13 +27,16 @@ type ClientConfig []struct {
 }
 
 type Location struct {
-	Lat          float64
-	Lon          float64
-	LocationDesc string
-	L1           string
-	L2           string
-	L3           string
-	L4           string
+	Lat             float64
+	Lon             float64
+	LocationDesc    string
+	L1              string
+	L2              string
+	L3              string
+	L4              string
+	Speed           int
+	Bearing         int
+	ServiceInterval int
 }
 
 type client struct {
@@ -167,7 +170,7 @@ func (c *client) process() {
 		c.DoneInit = c.discoveryProcess()
 	}
 
-	log.Println("time-config for ", c.Id, " updateInterval:", c.UpdateInterval, " discoveryInterval:", c.DiscoveryInterval)
+	log.Println("time-config for ", c.Id, " updateInterval:", c.UpdateInterval, " discoveryInterval:", c.DiscoveryInterval, c.Loc.Bearing)
 
 	// main timer causing full discovery
 	mainticker := time.NewTicker(time.Duration(c.DiscoveryInterval) * time.Second)
@@ -194,8 +197,9 @@ func (c *client) process() {
 			case <-done:
 				return
 			case t := <-ticker.C:
-				c.Loc.Lat, c.Loc.Lon = newPosition(c.Loc.Lat, c.Loc.Lon, 90, 5, 200)
+				c.Loc.Lat, c.Loc.Lon = newPosition(c.Loc.Lat, c.Loc.Lon, c.Loc.Bearing, c.Loc.Speed, c.Loc.ServiceInterval)
 				updateClientbyId(c)
+
 				log.Println(c.Id, "Tick at", t, "", c.Loc.Lat, c.Loc.Lon)
 				c.downloadTargetApplication()
 			}
@@ -240,7 +244,8 @@ func addClientHandlers() {
 func addClientHandler(IND int) {
 	var INDEX int
 	INDEX = len(arrClients)
-	LOC := Location{CONF.Clients[IND].startLat, CONF.Clients[IND].startLon, "", "", "", "", ""}
+	LOC := Location{CONF.Clients[IND].startLat, CONF.Clients[IND].startLon, "", "", "", "", "", CONF.Clients[IND].speed, CONF.Clients[IND].bearing, CONF.Clients[IND].ServiceInterval}
+	fmt.Println(LOC)
 	arrClients = append(arrClients, client{INDEX, "test", false, false, CONF.Clients[IND].ServiceInterval, CONF.Clients[IND].DiscoveryInterval, LOC, "app.service.consul"})
 	arrClients[len(arrClients)-1].Start()
 }
@@ -310,9 +315,9 @@ func PointAtBearingAndDistance(p orb.Point, bearing, distance float64) orb.Point
 	return orb.Point{rad2deg(bLon), rad2deg(bLat)}
 }
 
-func newPosition(slat float64, slon float64, bearing float64, speed float64, interval int) (lat float64, lon float64) {
-	dist := speed * float64(interval)
-	p1 := PointAtBearingAndDistance(orb.Point{slat, slon}, bearing, dist)
+func newPosition(slat float64, slon float64, bearing int, speed int, interval int) (lat float64, lon float64) {
+	dist := float64(speed) * float64(interval)
+	p1 := PointAtBearingAndDistance(orb.Point{slat, slon}, float64(bearing), dist)
 	return p1.X(), p1.Y()
 }
 
