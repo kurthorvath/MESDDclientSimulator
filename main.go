@@ -369,15 +369,21 @@ func initLogger() {
 
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
+
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "map.html")
 }
 
 func getpos(w http.ResponseWriter, req *http.Request) {
+	enableCors(&w)
 	buffer, err := json.Marshal(arrClients)
 	if err != nil {
 		fmt.Printf("error marshaling JSON: %v\n", err)
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(buffer)
 }
 

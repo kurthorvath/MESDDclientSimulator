@@ -13,7 +13,8 @@
 <body>
 
 <!-- define a the area the map will go into. Feel free to change the size as needed -->
-<div id="map" style="width:800px; height: 500px;"></div>
+
+<div id="map" style="width:1024; height: 800px;"></div>
 <script>
 
 var greenIcon = new L.Icon({
@@ -38,15 +39,8 @@ var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-// if you'd like to explore other base maps, see: http://developer.mapquest.com/web/products/open/map
 
-// if you use different tiles, be sure to update the attribution :)
-//L.tileLayer(tiles+'{z}/{x}/{y}.png', {
-//attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://FortiusOne.com">FortiusOne</a> and <a href="http://stamen.com">Stamen</a>',
-//maxZoom: 18
-//}).addTo(map);
-
-async function doSomeStuff() {
+async function doUpdate() {
 	fetch("http://127.0.0.1:8080/getpos")
 	.then(response => {
 		if (!response.ok) {
@@ -55,7 +49,6 @@ async function doSomeStuff() {
 		return response.json();
 	})
 	.then(data => {
-		//console.log(data[0]);
 		for (let i = 0; i < data.length; i++) {
 			L.marker([data[i].Location.Lat, data[i].Location.Lon], {icon: greenIcon}).addTo(map);
 		}
@@ -63,12 +56,11 @@ async function doSomeStuff() {
 	.catch(error => {
 		console.error('Error:', error);
 	})
-    console.log('task completed, waiting 5 seconds for next run...');
-    setTimeout(doSomeStuff, 1000);
+    setTimeout(doUpdate, 1000);
 }
 
-doSomeStuff()
-//var marker = L.marker([35.737448286487595, 51.39876293182373]).addTo(map);
+doUpdate()
+
 
 </script>
 
