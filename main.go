@@ -1,11 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"math"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
@@ -16,6 +19,8 @@ import (
 	"github.com/paulmach/orb"
 	"gopkg.in/ini.v1"
 )
+
+const DNS_SERVER string = "3.16.183.50:53"
 
 type ClientConfig []struct {
 	ServiceInterval   int    `json:"service_interval"`
@@ -393,9 +398,57 @@ func httpServer() {
 	http.ListenAndServe(":8080", nil)
 }
 
+func getTargetDataCustomDNS(target string) (body []byte, code int) {
+	var (
+		dnsResolverIP        = DNS_SERVER
+		dnsResolverProto     = "udp" // Protocol to use for the DNS resolver
+		dnsResolverTimeoutMs = 1000  // Timeout (ms) for the DNS resolver (optional)
+	)
+
+	dialer := &net.Dialer{
+		Resolver: &net.Resolver{
+			PreferGo: true,
+			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+				d := net.Dialer{
+					Timeout: time.Duration(dnsResolverTimeoutMs) * time.Millisecond,
+				}
+				return d.DialContext(ctx, dnsResolverProto, dnsResolverIP)
+			},
+		},
+	}
+
+	dialContext := func(ctx context.Context, network, addr string) (net.Conn, error) {
+		return dialer.DialContext(ctx, network, addr)
+	}
+
+	http.DefaultTransport.(*http.Transport).DialContext = dialContext
+	httpClient := &http.Client{}
+
+	// Testing the new HTTP client with the custom DNS resolver.
+	resp, err := httpClient.Get(target + ":9001")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer resp.Body.Close()
+
+	body, err = io.ReadAll(resp.Body)
+	resp.Body.Close()
+	if resp.StatusCode > 299 {
+		log.Fatalf("Response failed with status code: %d and\nbody: %s\n", resp.StatusCode, body)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s", body)
+
+	return body, resp.StatusCode
+}
+
 func main() {
 	readConfig()
 	initLogger()
+
+	getTargetDataCustomDNS("http://counting.service.consul")
 
 	prompt := promptui.Select{
 		Label: "Select Action",
