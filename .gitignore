@@ -2,3 +2,5 @@
 *.exe
 main
 simulator.log
+simulator.log
+leaflet.ajax.min.js

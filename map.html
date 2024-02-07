@@ -7,7 +7,7 @@
 	     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
 	 <![endif]-->
 	  <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
-	   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 
 </head>
 <body>
@@ -15,7 +15,10 @@
 <!-- define a the area the map will go into. Feel free to change the size as needed -->
 
 <div id="map" style="width:1024; height: 800px;"></div>
-<script>
+<script src="https://raw.githubusercontent.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js">
+
+var geojsonLayer = new L.GeoJSON.AJAX("klagenfurt.geojson");       
+geojsonLayer.addTo(map)
 
 var greenIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
